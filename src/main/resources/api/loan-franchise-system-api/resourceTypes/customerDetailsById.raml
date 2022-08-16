@@ -1,0 +1,39 @@
+#%RAML 1.0 ResourceType
+
+get:
+  description: This is used to fetch <<resourcePathName | !singularize>> details
+  responses:
+    200:
+      body:
+        application/json:
+          type: <<customerDetailsByIdResponse>>
+
+post:
+  description: This is used to create <<resourcePathName | !singularize>> details
+  body:
+    application/json:
+      type: <<customerDetailsByIdRequest>>
+  responses:
+    200:
+      body:
+        application/json:
+          type: <<customerDetailsByIdResponse>>
+
+patch:
+  description: This is used to update <<resourcePathName | !singularize>> details
+  body:
+    application/json:
+      type: <<customerDetailsByIdRequest>>
+  responses:
+    200:
+      body:
+        application/json:
+          type: <<customerDetailsByIdResponse>>
+
+delete:
+  description: This is used to delete <<resourcePathName | !singularize>> details
+  responses:
+    200:
+      body:
+        application/json:
+          example: "Status: Success"

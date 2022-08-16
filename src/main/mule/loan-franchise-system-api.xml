@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+    <http:listener-config name="loan-franchise-system-api-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="8081" />
+    </http:listener-config>
+    <apikit:config name="loan-franchise-system-api-config" api="loan-franchise-system-api/loan-franchise-system-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <flow name="loan-franchise-system-api-main">
+        <http:listener config-ref="loan-franchise-system-api-httpListenerConfig" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="loan-franchise-system-api-config" />
+		<error-handler ref="error-handler" />
+    </flow>
+    <flow name="loan-franchise-system-api-console">
+        <http:listener config-ref="loan-franchise-system-api-httpListenerConfig" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="loan-franchise-system-api-config" />
+		<error-handler ref="error-handler" />
+    </flow>
+    <flow name="delete:\customer\(customerId):loan-franchise-system-api-config">
+        <flow-ref doc:name="deletecustomer" doc:id="50aa6561-c478-40d4-a487-d4127627f8d2" name="deletecustomer"/>
+		<ee:transform>
+            <ee:variables>
+                <ee:set-variable variableName="customerId">attributes.uriParams.'customerId'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+"Status: Success"]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="patch:\customer\(customerId):application\json:loan-franchise-system-api-config">
+        <flow-ref doc:name="patchcustomer" doc:id="56e387b7-53d1-46ed-a8d7-915d176acba6" name="patchcustomer"/>
+		<ee:transform>
+            <ee:variables>
+                <ee:set-variable variableName="customerId">attributes.uriParams.'customerId'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  cId: 1,
+  name: "James Watson",
+  contact: "9991535410",
+  email: "james@email.com",
+  age: 30,
+  city: "London",
+  designation: "CEO",
+  salary: 1000000,
+  loanAmount: 500000
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\customer:loan-franchise-system-api-config">
+        <flow-ref doc:name="getcustomer" doc:id="210638ca-b72c-418d-beec-0801f33f9909" name="getcustomer"/>
+		<ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  cId: 1,
+  name: "James Watson",
+  contact: "9991535410",
+  email: "james@email.com",
+  age: 30,
+  city: "London",
+  designation: "CEO",
+  salary: 1000000,
+  loanAmount: 500000
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\customer\(customerId):loan-franchise-system-api-config">
+        <flow-ref doc:name="getcustomerbyid" doc:id="faa2f385-1a3e-41e4-b98e-baa019af987f" name="getcustomerbyid"/>
+		<ee:transform>
+            <ee:variables>
+                <ee:set-variable variableName="customerId">attributes.uriParams.'customerId'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  cId: 1,
+  name: "James Watson",
+  contact: "9991535410",
+  email: "james@email.com",
+  age: 30,
+  city: "London",
+  designation: "CEO",
+  salary: 1000000,
+  loanAmount: 500000
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="post:\customer\(customerId):application\json:loan-franchise-system-api-config">
+        <flow-ref doc:name="postcustomer" doc:id="58e7da56-6267-4626-9198-2371ee179ed1" name="postcustomer"/>
+		<ee:transform>
+            <ee:variables>
+                <ee:set-variable variableName="customerId">attributes.uriParams.'customerId'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  cId: 1,
+  name: "James Watson",
+  contact: "9991535410",
+  email: "james@email.com",
+  age: 30,
+  city: "London",
+  designation: "CEO",
+  salary: 1000000,
+  loanAmount: 500000
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+</mule>

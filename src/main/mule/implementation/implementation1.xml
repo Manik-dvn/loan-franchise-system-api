@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="deletecustomer" doc:id="b5770e79-9b80-40e2-bc42-3864baecf8ff" >
+		<logger level="INFO" doc:name="start delete sub flow" doc:id="cdc11179-2d7c-4a68-a454-59e75391077a" message="start delete sub flow"/>
+		<ee:transform doc:name="uriparams(customerId)" doc:id="3bbb01fe-22ec-4c5a-b7fa-4b50877d26ea" >
+			<ee:variables >
+				<ee:set-variable variableName="customerId" ><![CDATA[attributes.uriParams.'customerId']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="response" doc:id="82553017-b7de-435e-b0d8-4682536b07a3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"Status: Success"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="end delete sub flow" doc:id="8a8d9562-683a-4b45-a9e3-106ccf107944" message="end delete sub flow"/>
+	</sub-flow>
+	<sub-flow name="patchcustomer" doc:id="ed37e510-834b-46a1-8aea-0dd9c2119338" >
+		<logger level="INFO" doc:name="start patch sub flow" doc:id="c8385939-2c6d-46c9-b8aa-d6a5ac96ff7b" message="start patch sub flow"/>
+		<ee:transform doc:name="uriparams(customerId)" doc:id="702c16cf-27a8-4cba-98d5-419e0dae713d" >
+			<ee:variables >
+				<ee:set-variable variableName="customerId" ><![CDATA[attributes.uriParams.'customerId']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="updated details of customer" doc:id="288fd599-dfa2-47d8-8794-72ae95aa0ab0" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  cId: 1,
+  name: "James Watson",
+  contact: "9991535410",
+  email: "james@email.com",
+  age: 30,
+  city: "London",
+  designation: "CEO",
+  salary: 1000000,
+  loanAmount: 500000
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="end patch sub flow" doc:id="8a4c9910-50a7-4463-b973-30b3a5801834" message="end patch sub flow"/>
+	</sub-flow>
+	<sub-flow name="getcustomer" doc:id="3aa0057a-48cf-4bcb-bad4-c56bd93224d5" >
+		<logger level="INFO" doc:name="start get sub flow" doc:id="83e945ba-a26c-43b0-89b2-eee44cf52ade" message="end get sub flow"/>
+		<ee:transform doc:name="details of customer" doc:id="59c3f8d8-66b9-448e-bddc-e05cedb9a38d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  cId: 1,
+  name: "James Watson",
+  contact: "9991535410",
+  email: "james@email.com",
+  age: 30,
+  city: "London",
+  designation: "CEO",
+  salary: 1000000,
+  loanAmount: 500000
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="end get sub flow" doc:id="359a80c6-a363-4fbe-9c76-d79145f4975d" message="end get sub flow"/>
+	</sub-flow>
+	<sub-flow name="getcustomerbyid" doc:id="a7591bde-2033-4151-b091-74db1c24a623" >
+		<ee:transform doc:name="Copy_of_Transform Message" doc:id="21398aaf-3e82-4987-afb3-4499a98a54e0" >
+			<ee:variables >
+				<ee:set-variable variableName="customerId" ><![CDATA[attributes.uriParams.'customerId']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="Copy_of_Transform Message" doc:id="9113802a-a0e7-413b-bdef-c3614818a3bc" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  cId: 1,
+  name: "James Watson",
+  contact: "9991535410",
+  email: "james@email.com",
+  age: 30,
+  city: "London",
+  designation: "CEO",
+  salary: 1000000,
+  loanAmount: 500000
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="postcustomer" doc:id="cf2f6eb7-0907-41c6-ae90-4f6372610926" >
+		<logger level="INFO" doc:name="start post sub flow" doc:id="dfdf2c1c-711e-4a72-8f1e-49d32568731d" message="start post sub flow"/>
+		<ee:transform doc:name="uriparams(customerId)" doc:id="8e56b165-c6e9-425b-acbc-6b3be3a33793" >
+			<ee:variables >
+				<ee:set-variable variableName="customerId" ><![CDATA[attributes.uriParams.'customerId']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="posting customer details" doc:id="4191d73d-6da6-4756-9117-e7ce2d7c488b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  cId: 1,
+  name: "James Watson",
+  contact: "9991535410",
+  email: "james@email.com",
+  age: 30,
+  city: "London",
+  designation: "CEO",
+  salary: 1000000,
+  loanAmount: 500000
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="end post sub flow" doc:id="ee210b53-c39d-452c-9101-d078d4b413dd" message="end post sub flow"/>
+	</sub-flow>
+</mule>

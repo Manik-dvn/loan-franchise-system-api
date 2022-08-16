@@ -1,0 +1,21 @@
+#%RAML 1.0 SecurityScheme
+
+type: x-token-authorise
+
+description: This will make sure that we have a token in Authorisation header
+
+describedBy:
+  headers:
+    client_id: 
+      type: string
+    client_secret: 
+      type: string
+  responses:
+    400:
+      description: 400 - Bad Request
+    401:
+      description: 401 - Unauthorised access
+    404:
+      description: 404 - File Not Found
+    500:
+      description: 500 - Internal Server Error

@@ -1,0 +1,38 @@
+#%RAML 1.0
+title: Loan Franchise System Api
+description: This api helps to find, post, delete, put the customer details
+
+protocols:
+  - HTTP
+  - HTTPS
+
+traits:
+  errors: !include traits/errorTraits.raml
+
+securitySchemes:
+  customSecuritySchema: !include securitySchema/securityScheme.raml
+
+securedBy:
+  - customSecuritySchema
+
+types:
+  customerInfo: !include dataTypes/customerInfo.raml
+  customerInfoByIdRequest: !include dataTypes/customerInfoByIdRequest.raml
+  customerInfoResponse: !include dataTypes/customerInfoResponse.raml
+
+resourceTypes:
+  customerDetails: !include resourceTypes/customerDetails.raml
+  customerDetailsById: !include resourceTypes/customerDetailsById.raml
+
+/customer:
+  is: errors
+  type:
+    customerDetails:
+      customerDetails: customerInfo
+
+  /{customerId}:
+    is: errors
+    type:
+      customerDetailsById:
+        customerDetailsByIdRequest: customerInfoByIdRequest
+        customerDetailsByIdResponse: customerInfoResponse
