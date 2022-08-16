@@ -1,1 +1,6 @@
 #LOCAL PROPERTIES
+
+#LocalHost:
+http:
+  host: "localhost"
+  port: "8081"
